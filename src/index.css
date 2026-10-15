@@ -1,0 +1,57 @@
+@import "tailwindcss";
+
+:root {
+  --color-background: #12100E;
+  --color-surface: #1A1714;
+  --color-text-primary: #EDE6D8;
+  --color-text-secondary: #A89F90;
+  --color-accent: #B8976A;
+  --color-divider: rgba(237, 230, 216, 0.14);
+  --color-border: rgba(237, 230, 216, 0.24);
+  --color-text-dark: #12100E;
+  --sidebar-width: 88px;
+  --content-gutter: 72px;
+  --radius-card: 4px;
+  --radius-pill: 999px;
+}
+
+@theme {
+  --color-bg-main: #12100E;
+  --color-surface-main: #1A1714;
+  --color-text-pri: #EDE6D8;
+  --color-text-sec: #A89F90;
+  --color-brass: #B8976A;
+
+  --font-serif-editorial: 'Libre Baskerville', 'Cormorant Garamond', Georgia, serif;
+  --font-sans-humanist: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --font-mono-code: 'JetBrains Mono', monospace;
+}
+
+body {
+  background-color: #12100E;
+  color: #EDE6D8;
+  font-family: var(--font-sans-humanist);
+  min-height: 100vh;
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom scrollbars matching aesthetic */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #12100E;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(237, 230, 216, 0.18);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #B8976A;
+}

@@ -1,0 +1,6 @@
+{
+  "name": "Oribius Vault - Descargas de Juegos",
+  "description": "Catálogo y centro de descargas directas de videojuegos para PC con filtros avanzados por género, año y requisitos del sistema.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
