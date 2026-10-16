@@ -32,7 +32,7 @@ export const CategoryPills: React.FC<CategoryPillsProps> = ({
               <span>{genre}</span>
               <span
                 className={`text-[11px] font-mono tabular-nums ${
-                  isSelected ? 'text-[#F97316]' : 'text-neutral-500'
+                  isSelected ? 'text-[#C5A059]' : 'text-neutral-500'
                 }`}
               >
                 ({count})
@@ -40,7 +40,7 @@ export const CategoryPills: React.FC<CategoryPillsProps> = ({
 
               {/* Active Underline Indicator */}
               {isSelected && (
-                <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#F97316] rounded-full shadow-[0_0_8px_rgba(249,115,22,0.6)]" />
+                <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#C5A059] rounded-full shadow-[0_0_8px_rgba(197,160,89,0.5)]" />
               )}
             </button>
           );

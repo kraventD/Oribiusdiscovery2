@@ -56,7 +56,7 @@ export const AdvancedFilterBar: React.FC<AdvancedFilterBarProps> = ({
         {hasActiveFilters && (
           <button
             onClick={onReset}
-            className="flex items-center gap-1.5 text-xs text-[#EA580C] hover:text-[#FB923C] transition-colors cursor-pointer"
+            className="flex items-center gap-1.5 text-xs text-[#C5A059] hover:text-[#DFCA9E] transition-colors cursor-pointer"
           >
             <RotateCcw className="w-3.5 h-3.5" />
             <span>Restablecer todo</span>
@@ -67,8 +67,8 @@ export const AdvancedFilterBar: React.FC<AdvancedFilterBarProps> = ({
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         {/* Year Filter */}
         <div>
-          <label className="text-xs text-neutral-400 font-mono flex items-center gap-2 mb-3">
-            <Calendar className="w-3.5 h-3.5 text-[#F97316]" />
+          <label className="text-xs text-[#DFCA9E] font-mono flex items-center gap-2 mb-3">
+            <Calendar className="w-3.5 h-3.5 text-[#C5A059]" />
             <span>Año ({selectedYearRange[0]} - {selectedYearRange[1]})</span>
           </label>
           <div className="flex flex-wrap gap-2 mb-3">
@@ -82,7 +82,7 @@ export const AdvancedFilterBar: React.FC<AdvancedFilterBarProps> = ({
                   onClick={() => onYearRangeChange(preset.range)}
                   className={`text-xs transition-colors cursor-pointer ${
                     isMatch
-                      ? 'text-[#F97316] font-semibold underline underline-offset-4 decoration-[#F97316]'
+                      ? 'text-[#C5A059] font-semibold underline underline-offset-4 decoration-[#C5A059]'
                       : 'text-neutral-400 hover:text-white'
                   }`}
                 >
@@ -104,7 +104,7 @@ export const AdvancedFilterBar: React.FC<AdvancedFilterBarProps> = ({
                   selectedYearRange[1],
                 ])
               }
-              className="w-full accent-[#F97316] h-1 bg-[#242424] rounded cursor-pointer"
+              className="w-full accent-[#C5A059] h-1 bg-[#242424] rounded cursor-pointer"
             />
             <input
               type="range"
@@ -117,15 +117,15 @@ export const AdvancedFilterBar: React.FC<AdvancedFilterBarProps> = ({
                   Math.max(Number(e.target.value), selectedYearRange[0]),
                 ])
               }
-              className="w-full accent-[#F97316] h-1 bg-[#242424] rounded cursor-pointer"
+              className="w-full accent-[#C5A059] h-1 bg-[#242424] rounded cursor-pointer"
             />
           </div>
         </div>
 
         {/* Size Filter */}
         <div>
-          <label className="text-xs text-neutral-400 font-mono flex items-center gap-2 mb-3">
-            <HardDrive className="w-3.5 h-3.5 text-[#F97316]" />
+          <label className="text-xs text-[#DFCA9E] font-mono flex items-center gap-2 mb-3">
+            <HardDrive className="w-3.5 h-3.5 text-[#C5A059]" />
             <span>Tamaño en Disco</span>
           </label>
           <div className="flex flex-wrap gap-x-4 gap-y-2">
@@ -137,7 +137,7 @@ export const AdvancedFilterBar: React.FC<AdvancedFilterBarProps> = ({
                   onClick={() => onSizeBucketChange(preset.id)}
                   className={`text-xs transition-colors cursor-pointer ${
                     isSelected
-                      ? 'text-[#F97316] font-semibold underline underline-offset-4 decoration-[#F97316]'
+                      ? 'text-[#C5A059] font-semibold underline underline-offset-4 decoration-[#C5A059]'
                       : 'text-neutral-400 hover:text-white'
                   }`}
                 >
@@ -150,14 +150,14 @@ export const AdvancedFilterBar: React.FC<AdvancedFilterBarProps> = ({
 
         {/* Sort Filter */}
         <div>
-          <label className="text-xs text-neutral-400 font-mono flex items-center gap-2 mb-3">
-            <ArrowUpDown className="w-3.5 h-3.5 text-[#F97316]" />
+          <label className="text-xs text-[#DFCA9E] font-mono flex items-center gap-2 mb-3">
+            <ArrowUpDown className="w-3.5 h-3.5 text-[#C5A059]" />
             <span>Criterio de Ordenación</span>
           </label>
           <select
             value={sortBy}
             onChange={e => onSortByChange(e.target.value as SortOption)}
-            className="w-full bg-[#121212] text-neutral-200 border border-[#242424] rounded-lg px-3 py-2 text-xs focus:outline-none focus:border-[#F97316] transition-colors cursor-pointer"
+            className="w-full bg-[#121212] text-neutral-200 border border-[#242424] rounded-lg px-3 py-2 text-xs focus:outline-none focus:border-[#C5A059] transition-colors cursor-pointer"
           >
             <option value="recent">Más recientes primero (por año)</option>
             <option value="downloads">Más populares</option>

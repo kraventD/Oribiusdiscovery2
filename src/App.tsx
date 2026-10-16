@@ -10,6 +10,9 @@ import { NewReleasesSection } from './components/games/NewReleasesSection';
 import { HowToDownloadPanel } from './components/home/HowToDownloadPanel';
 import { SiteFooter } from './components/layout/SiteFooter';
 import { GameDetailModal } from './components/games/GameDetailModal';
+import { MySetupModal } from './components/setup/MySetupModal';
+import { useUserSetup } from './hooks/useUserSetup';
+import { evaluateGameCompatibility } from './utils/hardwareChecker';
 
 export default function App() {
   const [selectedGame, setSelectedGame] = useState<GameItem | null>(null);
@@ -17,6 +20,10 @@ export default function App() {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [selectedCategory, setSelectedCategory] = useState<string>('Todos');
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const [isSetupModalOpen, setIsSetupModalOpen] = useState<boolean>(false);
+  const [onlyCompatible, setOnlyCompatible] = useState<boolean>(false);
+
+  const { setup, saveSetup, clearSetup, hasSetup } = useUserSetup();
 
   const featuredGamesRef = useRef<HTMLDivElement>(null);
   const categoriesRef = useRef<HTMLDivElement>(null);
@@ -49,8 +56,15 @@ export default function App() {
       );
     }
 
+    // Apply "Solo compatibles con mi PC" filter if active
+    if (onlyCompatible && hasSetup) {
+      list = list.filter(
+        g => evaluateGameCompatibility(g, setup).overall !== 'unsupported'
+      );
+    }
+
     return list;
-  }, [selectedCategory, searchQuery]);
+  }, [selectedCategory, searchQuery, onlyCompatible, hasSetup, setup]);
 
   // 3. Nuevos lanzamientos (Exact 4 games: Black Myth: Wukong, S.T.A.L.K.E.R. 2, Silent Hill 2, Metaphor: ReFantazio)
   const newReleasesGames = useMemo(() => {
@@ -77,8 +91,15 @@ export default function App() {
       );
     }
 
+    // Apply "Solo compatibles con mi PC" filter if active
+    if (onlyCompatible && hasSetup) {
+      list = list.filter(
+        g => evaluateGameCompatibility(g, setup).overall !== 'unsupported'
+      );
+    }
+
     return list;
-  }, [selectedCategory, searchQuery]);
+  }, [selectedCategory, searchQuery, onlyCompatible, hasSetup, setup]);
 
   // Navigation handlers
   const handleNavigate = (section: string) => {
@@ -87,6 +108,8 @@ export default function App() {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } else if (section === 'juegos') {
       featuredGamesRef.current?.scrollIntoView({ behavior: 'smooth' });
+    } else if (section === 'setup') {
+      setIsSetupModalOpen(true);
     } else if (section === 'categorias') {
       categoriesRef.current?.scrollIntoView({ behavior: 'smooth' });
     } else if (section === 'novedades') {
@@ -111,18 +134,36 @@ export default function App() {
     setSelectedGame(game);
   };
 
+  const handleToggleOnlyCompatible = () => {
+    if (!hasSetup) {
+      setIsSetupModalOpen(true);
+      showToast('Configura tu PC primero para activar el filtro de compatibilidad.');
+    } else {
+      setOnlyCompatible(prev => !prev);
+      if (!onlyCompatible) {
+        showToast('Filtro activo: Mostrando juegos compatibles con tu PC.');
+      } else {
+        showToast('Filtro desactivado: Mostrando todo el catálogo.');
+      }
+    }
+  };
+
   return (
     <div className="min-h-screen bg-[#12100E] text-[#EDE6D8] font-sans selection:bg-[#B8976A] selection:text-[#12100E] flex">
       {/* 1. Left Vertical Fixed Sidebar (Desktop only - Width: 88px) */}
       <Sidebar
         activeSection={activeSection}
         onNavigate={handleNavigate}
+        hasSetup={hasSetup}
+        onOpenSetup={() => setIsSetupModalOpen(true)}
       />
 
       {/* 2. Mobile Bottom Navigation Bar (Instagram / FB style) */}
       <BottomNav
         activeSection={activeSection}
         onNavigate={handleNavigate}
+        hasSetup={hasSetup}
+        onOpenSetup={() => setIsSetupModalOpen(true)}
       />
 
       {/* 3. Main Content Area (Offset by 88px on desktop, pb-24 on mobile for bottom bar) */}
@@ -131,22 +172,31 @@ export default function App() {
         <div id="inicio">
           <HeroSection
             game={heroGame}
+            setup={setup}
             searchQuery={searchQuery}
             onSearchChange={setSearchQuery}
             onOpenLinks={handleOpenLinks}
             onOpenDetails={handleOpenDetails}
+            onOpenSetupModal={() => setIsSetupModalOpen(true)}
           />
         </div>
 
         {/* Inner Content Container with 72px horizontal gutter */}
         <main className="w-full max-w-[1440px] px-6 sm:px-10 lg:px-[72px] mx-auto">
-          {/* Sección Destacados */}
+          {/* Sección Destacados con filtro de compatibilidad */}
           <div ref={featuredGamesRef} id="juegos">
             <FeaturedSection
               games={featuredGames}
+              setup={setup}
+              onlyCompatible={onlyCompatible}
+              onToggleOnlyCompatible={handleToggleOnlyCompatible}
               onOpenLinks={handleOpenLinks}
               onOpenDetails={handleOpenDetails}
-              onViewAll={() => setSelectedCategory('Todos')}
+              onViewAll={() => {
+                setSelectedCategory('Todos');
+                setOnlyCompatible(false);
+              }}
+              onOpenSetupModal={() => setIsSetupModalOpen(true)}
             />
           </div>
 
@@ -165,9 +215,14 @@ export default function App() {
               <div className="lg:col-span-8">
                 <NewReleasesSection
                   games={newReleasesGames}
+                  setup={setup}
                   onOpenLinks={handleOpenLinks}
                   onOpenDetails={handleOpenDetails}
-                  onViewAll={() => setSelectedCategory('Todos')}
+                  onViewAll={() => {
+                    setSelectedCategory('Todos');
+                    setOnlyCompatible(false);
+                  }}
+                  onOpenSetupModal={() => setIsSetupModalOpen(true)}
                 />
               </div>
 
@@ -189,14 +244,32 @@ export default function App() {
         <SiteFooter />
       </div>
 
-      {/* Real Functional Download Links and Details Modal */}
+      {/* Real Functional Download Links and Details Modal with Setup Comparator */}
       <GameDetailModal
         game={selectedGame}
+        setup={setup}
         onClose={() => setSelectedGame(null)}
         onSelectGame={game => setSelectedGame(game)}
         onReportLink={() =>
           showToast('Reporte recibido. Verificaremos los servidores de inmediato.')
         }
+        onOpenSetupModal={() => setIsSetupModalOpen(true)}
+      />
+
+      {/* Mi Setup Modal */}
+      <MySetupModal
+        isOpen={isSetupModalOpen}
+        currentSetup={setup}
+        onClose={() => setIsSetupModalOpen(false)}
+        onSave={newSetup => {
+          saveSetup(newSetup);
+          showToast('¡Setup guardado! Compatibilidad de juegos actualizada.');
+        }}
+        onClear={() => {
+          clearSetup();
+          setOnlyCompatible(false);
+          showToast('Setup eliminado de tu navegador.');
+        }}
       />
 
       {/* Discreet Toast Notification */}

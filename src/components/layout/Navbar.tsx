@@ -34,11 +34,11 @@ export const Navbar: React.FC<NavbarProps> = ({
             }}
             className="flex items-center gap-2.5 text-left group cursor-pointer"
           >
-            <div className="w-8 h-8 rounded-full bg-[#F97316]/10 flex items-center justify-center text-[#F97316] group-hover:scale-105 transition-transform">
+            <div className="w-8 h-8 rounded-full bg-[#C5A059]/10 border border-[#C5A059]/30 flex items-center justify-center text-[#C5A059] group-hover:scale-105 transition-transform">
               <Gamepad2 className="w-4 h-4" />
             </div>
             <span className="font-['Cinzel'] text-xl font-bold tracking-wider text-white">
-              Oribius <span className="text-[#F97316]">Vault</span>
+              Oribius <span className="text-[#C5A059]">Discovery</span>
             </span>
           </button>
         </div>
@@ -51,7 +51,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               onExploreClick();
             }}
             className={`transition-colors cursor-pointer ${
-              activeGenre === 'Todos' ? 'text-[#F97316] font-semibold' : 'hover:text-white'
+              activeGenre === 'Todos' ? 'text-[#C5A059] font-semibold' : 'hover:text-white'
             }`}
           >
             Explorar ({totalGames})
@@ -62,7 +62,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               onExploreClick();
             }}
             className={`transition-colors cursor-pointer ${
-              activeGenre === 'RPG' ? 'text-[#F97316] font-semibold' : 'hover:text-white'
+              activeGenre === 'RPG' ? 'text-[#C5A059] font-semibold' : 'hover:text-white'
             }`}
           >
             RPG
@@ -73,7 +73,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               onExploreClick();
             }}
             className={`transition-colors cursor-pointer ${
-              activeGenre === 'Acción' ? 'text-[#F97316] font-semibold' : 'hover:text-white'
+              activeGenre === 'Acción' ? 'text-[#C5A059] font-semibold' : 'hover:text-white'
             }`}
           >
             Acción
@@ -84,7 +84,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               onExploreClick();
             }}
             className={`transition-colors cursor-pointer ${
-              activeGenre === 'Mundo Abierto' ? 'text-[#F97316] font-semibold' : 'hover:text-white'
+              activeGenre === 'Mundo Abierto' ? 'text-[#C5A059] font-semibold' : 'hover:text-white'
             }`}
           >
             Mundo Abierto
@@ -100,7 +100,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               value={searchQuery}
               onChange={e => onSearchChange(e.target.value)}
               placeholder="Buscar títulos..."
-              className="w-full bg-[#141414] hover:bg-[#181818] text-white text-xs pl-8 pr-3 py-2 rounded-full border border-neutral-800 focus:outline-none focus:border-[#F97316] transition-colors placeholder:text-neutral-500 font-sans"
+              className="w-full bg-[#141414] hover:bg-[#181818] text-white text-xs pl-8 pr-3 py-2 rounded-full border border-neutral-800 focus:outline-none focus:border-[#C5A059] transition-colors placeholder:text-neutral-500 font-sans"
             />
           </div>
 
@@ -108,7 +108,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             onClick={onFilterToggle}
             className={`p-2 rounded-full border transition-colors cursor-pointer shrink-0 ${
               isFilterOpen
-                ? 'bg-[#F97316]/10 text-[#F97316] border-[#F97316]/40'
+                ? 'bg-[#C5A059]/15 text-[#DFCA9E] border-[#C5A059]/50'
                 : 'text-neutral-400 hover:text-white border-neutral-800 hover:border-neutral-600'
             }`}
             title="Alternar filtros avanzados"

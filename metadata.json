@@ -1,6 +1,6 @@
 {
-  "name": "Oribius Vault - Descargas de Juegos",
-  "description": "Catálogo y centro de descargas directas de videojuegos para PC con filtros avanzados por género, año y requisitos del sistema.",
+  "name": "Oribius Discovery - Catálogo y Compatibilidad de Juegos",
+  "description": "Catálogo y centro de videojuegos para PC con buscador de compatibilidad de hardware My Setup, filtros avanzados y especificaciones técnicas.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

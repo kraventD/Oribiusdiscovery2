@@ -1,22 +1,31 @@
 import React from 'react';
-import { Search, Download } from 'lucide-react';
+import { Search, Download, Cpu } from 'lucide-react';
 import { GameItem } from '../../types/game';
+import { UserHardwareSetup } from '../../types/setup';
+import { SetupBadge } from '../setup/SetupBadge';
+import { HardwareTierIndicator } from '../ui/HardwareTierIndicator';
 
 interface HeroSectionProps {
   game: GameItem;
+  setup?: UserHardwareSetup | null;
   searchQuery: string;
   onSearchChange: (query: string) => void;
   onOpenLinks: (game: GameItem) => void;
   onOpenDetails: (game: GameItem) => void;
+  onOpenSetupModal?: () => void;
 }
 
 export const HeroSection: React.FC<HeroSectionProps> = ({
   game,
+  setup,
   searchQuery,
   onSearchChange,
   onOpenLinks,
   onOpenDetails,
+  onOpenSetupModal,
 }) => {
+  const hasSetup = Boolean(setup && setup.cpu && setup.gpu && setup.ramGb);
+
   return (
     <section className="relative w-full min-h-[760px] lg:min-h-[820px] flex flex-col justify-between overflow-hidden bg-[#12100E]">
       {/* Background Image: Panoramic Landscape of Elden Ring with Erdtree */}
@@ -43,32 +52,44 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             type="text"
             value={searchQuery}
             onChange={e => onSearchChange(e.target.value)}
-            placeholder="Buscar juegos..."
-            className="w-full h-[44px] sm:h-[48px] pl-11 pr-4 bg-[#12100E]/40 backdrop-blur-md text-[#EDE6D8] placeholder-[#A89F90] text-xs sm:text-sm rounded-full border border-[rgba(237,230,216,0.24)] focus:outline-none focus:border-[#B8976A] transition-colors"
+            placeholder="Buscar juegos en la bóveda..."
+            className="w-full h-[44px] sm:h-[48px] pl-11 pr-4 bg-[#12100E]/50 backdrop-blur-md text-[#EDE6D8] placeholder-[#A89F90] text-xs sm:text-sm rounded-full border border-[rgba(237,230,216,0.24)] focus:outline-none focus:border-[#B8976A] transition-colors"
           />
         </div>
 
-        {/* Right: Brand and Avatar */}
-        <div className="flex items-center gap-3 sm:gap-5 shrink-0">
-          <span className="hidden sm:inline-block font-['Libre_Baskerville',serif] text-sm sm:text-base tracking-[0.25em] text-[#EDE6D8] uppercase select-none">
-            [ M A R C A ]
-          </span>
-
-          <div
-            className="w-10 h-10 sm:w-[44px] sm:h-[44px] rounded-full border border-[#B8976A] flex items-center justify-center font-['Libre_Baskerville',serif] text-[#EDE6D8] text-xs sm:text-sm select-none"
-            title="Perfil de Usuario"
+        {/* Right: Mi Setup Quick Access and Brand */}
+        <div className="flex items-center gap-3 sm:gap-4 shrink-0">
+          <button
+            onClick={onOpenSetupModal}
+            className="flex items-center gap-2 px-3 sm:px-3.5 py-1.5 rounded-full border border-[rgba(237,230,216,0.2)] hover:border-[#B8976A] bg-[#12100E]/60 backdrop-blur-md text-xs font-mono text-[#EDE6D8] transition-all cursor-pointer group"
+            title="Configurar las especificaciones de tu PC"
           >
-            N
-          </div>
+            <Cpu className="w-3.5 h-3.5 text-[#B8976A] group-hover:scale-110 transition-transform" />
+            <span className="hidden sm:inline">
+              {hasSetup ? (setup?.presetName || 'Setup Activo') : 'Mi Setup'}
+            </span>
+            {hasSetup && (
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+            )}
+          </button>
+
+          <span className="hidden lg:inline-block font-['Libre_Baskerville',serif] text-sm tracking-[0.25em] text-[#EDE6D8] uppercase select-none pl-2 border-l border-[rgba(237,230,216,0.15)]">
+            ORIBIUS
+          </span>
         </div>
       </div>
 
       {/* 2. Hero Main Content (~72px margin left) */}
       <div className="relative z-10 w-full px-4 sm:px-10 lg:px-[72px] py-8 sm:py-10 my-auto">
         <div className="max-w-[640px]">
-          {/* Kicker */}
-          <div className="text-xs sm:text-[13px] font-mono uppercase tracking-[0.2em] text-[#B8976A] font-semibold mb-2 sm:mb-3">
-            NUEVO · {game.title.toUpperCase()}
+          {/* Kicker + Hardware Tier Indicator */}
+          <div className="flex items-center gap-3 mb-2 sm:mb-3">
+            <span className="text-xs sm:text-[13px] font-mono uppercase tracking-[0.2em] text-[#B8976A] font-semibold">
+              DESTACADO · {game.title.toUpperCase()}
+            </span>
+            <div className="pl-2 border-l border-[rgba(237,230,216,0.2)]">
+              <HardwareTierIndicator tier={game.hardwareTier} />
+            </div>
           </div>
 
           {/* Headline in two lines (Serif high-contrast, adaptable on mobile) */}
@@ -96,22 +117,28 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               onClick={() => onOpenDetails(game)}
               className="text-[#EDE6D8] hover:text-[#B8976A] text-sm font-medium underline underline-offset-4 transition-colors cursor-pointer text-center sm:text-left py-2"
             >
-              Ver detalles →
+              Ver detalles y requisitos →
             </button>
           </div>
         </div>
       </div>
 
       {/* 3. Hero Bottom Strip (Franja inferior del héroe) */}
-      <div className="relative z-20 w-full border-t border-[rgba(237,230,216,0.14)] px-6 sm:px-10 lg:px-[72px] py-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-        {/* Left: Game Title and Metadata */}
-        <div className="flex items-center gap-3">
+      <div className="relative z-20 w-full border-t border-[rgba(237,230,216,0.14)] px-4 sm:px-10 lg:px-[72px] py-4 sm:py-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+        {/* Left: Game Title, Metadata, and Compatibility Badge */}
+        <div className="flex items-center gap-3 flex-wrap">
           <span className="font-['Libre_Baskerville',serif] text-lg text-[#EDE6D8]">
             {game.title}
           </span>
           <span className="text-xs text-[#A89F90] font-sans">
-            RPG · 60 GB · v1.16
+            {game.genres.slice(0, 2).join(' · ')} · {game.fileSize}
           </span>
+          <SetupBadge
+            game={game}
+            setup={setup || null}
+            onOpenSetupModal={onOpenSetupModal}
+            size="sm"
+          />
         </div>
 
         {/* Center: Server Badges (Pills) */}
@@ -119,7 +146,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
           {game.servers.map(server => (
             <span
               key={server}
-              className="h-[30px] px-4 rounded-full border border-[rgba(237,230,216,0.24)] text-[#A89F90] text-xs flex items-center justify-center font-sans"
+              className="h-[28px] sm:h-[30px] px-3 sm:px-4 rounded-full border border-[rgba(237,230,216,0.24)] text-[#A89F90] text-xs flex items-center justify-center font-sans"
             >
               {server}
             </span>
@@ -127,7 +154,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
         </div>
 
         {/* Right: Carousel Indicator (01 - 02 - 03) */}
-        <div className="flex items-center gap-2 text-xs font-mono text-[#A89F90] select-none">
+        <div className="hidden md:flex items-center gap-2 text-xs font-mono text-[#A89F90] select-none">
           <span className="text-[#B8976A] font-semibold pb-0.5 border-b-2 border-[#B8976A]">
             01
           </span>

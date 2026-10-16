@@ -1,21 +1,25 @@
 import React from 'react';
-import { Home, Gamepad2, LayoutGrid, Star, Heart } from 'lucide-react';
+import { Home, Gamepad2, LayoutGrid, Star, Cpu } from 'lucide-react';
 
 interface BottomNavProps {
   activeSection: string;
   onNavigate: (section: string) => void;
+  hasSetup?: boolean;
+  onOpenSetup?: () => void;
 }
 
 export const BottomNav: React.FC<BottomNavProps> = ({
   activeSection,
   onNavigate,
+  hasSetup = false,
+  onOpenSetup,
 }) => {
   const navItems = [
     { id: 'inicio', label: 'Inicio', icon: Home },
     { id: 'juegos', label: 'Juegos', icon: Gamepad2 },
+    { id: 'setup', label: 'Mi Setup', icon: Cpu },
     { id: 'categorias', label: 'Categorías', icon: LayoutGrid },
     { id: 'novedades', label: 'Novedades', icon: Star },
-    { id: 'favoritos', label: 'Favoritos', icon: Heart },
   ];
 
   return (
@@ -31,7 +35,13 @@ export const BottomNav: React.FC<BottomNavProps> = ({
           return (
             <button
               key={item.id}
-              onClick={() => onNavigate(item.id)}
+              onClick={() => {
+                if (item.id === 'setup' && onOpenSetup) {
+                  onOpenSetup();
+                } else {
+                  onNavigate(item.id);
+                }
+              }}
               className="relative flex flex-col items-center justify-center py-1 px-1 min-h-[50px] transition-all group active:scale-95 cursor-pointer"
             >
               {/* Active Indicator Top Glow Line */}
@@ -48,6 +58,13 @@ export const BottomNav: React.FC<BottomNavProps> = ({
                   }`}
                   strokeWidth={isActive ? 2.2 : 1.75}
                 />
+                {/* Active indicator dot for setup */}
+                {item.id === 'setup' && hasSetup && (
+                  <span
+                    className="absolute -top-0.5 -right-1 w-2 h-2 rounded-full bg-emerald-400 border border-[#12100E] shadow-[0_0_6px_rgba(52,211,153,0.8)]"
+                    title="Setup activo"
+                  />
+                )}
               </div>
 
               <span

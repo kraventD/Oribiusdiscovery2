@@ -1,17 +1,24 @@
 import React, { useState } from 'react';
 import { Download } from 'lucide-react';
 import { GameItem } from '../../types/game';
+import { HardwareTierIndicator } from '../ui/HardwareTierIndicator';
+import { SetupBadge } from '../setup/SetupBadge';
+import { UserHardwareSetup } from '../../types/setup';
 
 interface FeaturedCardProps {
   game: GameItem;
+  setup?: UserHardwareSetup | null;
   onOpenLinks: (game: GameItem) => void;
   onOpenDetails: (game: GameItem) => void;
+  onOpenSetupModal?: () => void;
 }
 
 export const FeaturedCard: React.FC<FeaturedCardProps> = ({
   game,
+  setup,
   onOpenLinks,
   onOpenDetails,
+  onOpenSetupModal,
 }) => {
   const [imgError, setImgError] = useState(false);
 
@@ -46,7 +53,7 @@ export const FeaturedCard: React.FC<FeaturedCardProps> = ({
         </div>
 
         {/* Metadata: Row 1 - Title on Left, Size on Right */}
-        <div className="flex items-baseline justify-between gap-2 mb-1">
+        <div className="flex items-baseline justify-between gap-2 mb-1.5">
           <h3
             onClick={() => onOpenDetails(game)}
             className="font-['Libre_Baskerville',serif] text-lg text-[#EDE6D8] hover:text-[#B8976A] transition-colors cursor-pointer truncate"
@@ -59,11 +66,19 @@ export const FeaturedCard: React.FC<FeaturedCardProps> = ({
           </span>
         </div>
 
-        {/* Metadata: Row 2 - Genre · Year */}
-        <div className="text-xs text-[#A89F90] font-sans mb-3.5">
-          <span>{game.genres[0]}</span>
-          <span className="mx-1.5 opacity-50">·</span>
-          <span>{game.releaseYear}</span>
+        {/* Metadata: Row 2 - Hardware Tier + Setup Compatibility Badge */}
+        <div className="flex items-center justify-between text-xs text-[#A89F90] font-sans mb-3.5 gap-2">
+          <div className="flex items-center gap-2">
+            <HardwareTierIndicator tier={game.hardwareTier} />
+            <span className="opacity-40">·</span>
+            <span>{game.genres[0]}</span>
+          </div>
+
+          <SetupBadge
+            game={game}
+            setup={setup || null}
+            onOpenSetupModal={onOpenSetupModal}
+          />
         </div>
 
         {/* Server Badges (Pills) */}

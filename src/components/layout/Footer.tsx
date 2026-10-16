@@ -1,5 +1,5 @@
 import React from 'react';
-import { Gamepad2, ShieldCheck, Heart } from 'lucide-react';
+import { Gamepad2 } from 'lucide-react';
 
 export const Footer: React.FC = () => {
   return (
@@ -8,15 +8,15 @@ export const Footer: React.FC = () => {
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 pb-8 border-b border-[#1F1F1F]">
           <div>
             <div className="flex items-center gap-2 mb-2">
-              <div className="w-6 h-6 rounded bg-[#F97316]/10 border border-[#F97316]/30 flex items-center justify-center text-[#F97316]">
+              <div className="w-6 h-6 rounded bg-[#C5A059]/10 border border-[#C5A059]/30 flex items-center justify-center text-[#C5A059]">
                 <Gamepad2 className="w-3.5 h-3.5" />
               </div>
               <span className="font-['Cinzel'] text-sm font-bold tracking-wider text-white">
-                ORIBIUS <span className="text-[#F97316]">VAULT</span>
+                ORIBIUS <span className="text-[#C5A059]">DISCOVERY</span>
               </span>
             </div>
             <p className="text-neutral-500 max-w-md leading-relaxed">
-              Plataforma especializada en catalogación y enlaces directos de descarga para videojuegos de PC. Enlaces limpios, sin ventanas emergentes intrusivas y con integridad verificada por hash.
+              Plataforma especializada en catalogación técnica, verificación de compatibilidad de hardware y análisis de rendimiento para videojuegos de PC.
             </p>
           </div>
 
@@ -28,17 +28,17 @@ export const Footer: React.FC = () => {
               <div>Estrategia 4X</div>
             </div>
             <div className="space-y-1">
-              <div className="text-white font-medium">Seguridad</div>
-              <div>Integridad SHA256</div>
-              <div>Mirrors Verificados</div>
-              <div>Instaladores Limpios</div>
+              <div className="text-white font-medium">Hardware & Datos</div>
+              <div>Mapeo de Requisitos</div>
+              <div>Buscador My Setup</div>
+              <div>Diagnóstico por Componentes</div>
             </div>
           </div>
         </div>
 
         <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-neutral-500">
           <div>
-            © {new Date().getFullYear()} Oribius Vault. Todos los derechos reservados a sus respectivos desarrolladores y distribuidoras.
+            © {new Date().getFullYear()} Oribius Discovery. Todos los derechos reservados a sus respectivos desarrolladores y distribuidoras.
           </div>
           <div className="flex items-center gap-1 text-[11px]">
             <span>Diseño optimizado para alto rendimiento y mínima latencia.</span>

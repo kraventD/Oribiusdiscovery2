@@ -3,12 +3,17 @@ import { X, Download, Copy, Check, ShieldCheck, ArrowRight, HardDrive, Star, Cal
 import { GameItem } from '../../types/game';
 import { GAMES_CATALOG } from '../../data/gamesCatalog';
 import { HardwareTierIndicator } from '../ui/HardwareTierIndicator';
+import { UserHardwareSetup } from '../../types/setup';
+import { SetupComparator } from '../setup/SetupComparator';
+import { SetupBadge } from '../setup/SetupBadge';
 
 interface GameDetailModalProps {
   game: GameItem | null;
   onClose: () => void;
   onSelectGame?: (game: GameItem) => void;
   onReportLink?: () => void;
+  setup?: UserHardwareSetup | null;
+  onOpenSetupModal?: () => void;
 }
 
 export const GameDetailModal: React.FC<GameDetailModalProps> = ({
@@ -16,6 +21,8 @@ export const GameDetailModal: React.FC<GameDetailModalProps> = ({
   onClose,
   onSelectGame,
   onReportLink,
+  setup,
+  onOpenSetupModal,
 }) => {
   const [copiedPassword, setCopiedPassword] = useState(false);
   const [copiedHash, setCopiedHash] = useState(false);
@@ -135,8 +142,13 @@ export const GameDetailModal: React.FC<GameDetailModalProps> = ({
             <span className="font-['Libre_Baskerville',serif] text-base sm:text-lg text-[#EDE6D8] font-normal truncate max-w-md md:max-w-xl">
               {game.title}
             </span>
-            <div className="hidden sm:flex items-center pl-3 border-l border-[rgba(237,230,216,0.14)] shrink-0">
+            <div className="hidden sm:flex items-center gap-2.5 pl-3 border-l border-[rgba(237,230,216,0.14)] shrink-0">
               <HardwareTierIndicator tier={game.hardwareTier} />
+              <SetupBadge
+                game={game}
+                setup={setup || null}
+                onOpenSetupModal={onOpenSetupModal}
+              />
             </div>
           </div>
 
@@ -297,13 +309,20 @@ export const GameDetailModal: React.FC<GameDetailModalProps> = ({
                 </div>
               </section>
 
-              {/* 3. Requisitos del sistema - Tabla amplia y despejada sin textos comprimidos */}
+              {/* 3. Requisitos del sistema - Diagnóstico con Tu Setup y Tabla oficial */}
               <section aria-labelledby="modal-requisitos-heading">
+                {/* Diagnóstico Interactivo con Setup del Visitante */}
+                <SetupComparator
+                  game={game}
+                  setup={setup || null}
+                  onOpenSetupModal={onOpenSetupModal || (() => {})}
+                />
+
                 <h3
                   id="modal-requisitos-heading"
                   className="font-['Libre_Baskerville',serif] text-xl sm:text-2xl font-normal text-[#EDE6D8] tracking-tight mb-4"
                 >
-                  Requisitos del sistema
+                  Ficha técnica oficial de requisitos
                 </h3>
 
                 <div className="w-full overflow-x-auto rounded-[4px] border border-[rgba(237,230,216,0.1)] bg-[#13110E] p-4 sm:p-5">

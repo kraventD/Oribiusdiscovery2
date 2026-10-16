@@ -1,3 +1,5 @@
+import { NormalizedRequirements } from './setup';
+
 export interface DownloadLink {
   id: string;
   serverName: string;
@@ -42,6 +44,7 @@ export interface GameItem {
     minimum: SystemSpecs;
     recommended: SystemSpecs;
   };
+  normalizedRequirements?: NormalizedRequirements;
   installationSteps: string[];
   tags: string[];
   servers: string[];
